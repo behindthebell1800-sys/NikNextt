@@ -16,33 +16,34 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-      <div className="max-w-[1140px] mx-auto px-6 h-16 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-violet-100 shadow-sm">
+      <div className="max-w-[1140px] mx-auto px-6 h-20 flex items-center justify-between">
         <button 
           onClick={() => onNavigate('home')}
-          className="text-2xl font-bold tracking-tight text-slate-800 hover:opacity-80 transition-opacity"
+          className="text-2xl font-extrabold tracking-tight hover:opacity-80 transition-opacity"
         >
-          Nik<span className="text-violet-600">Nextt</span>
+          <span className="gradient-text">NikNextt</span>
         </button>
 
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-10">
           {navItems.map((item) => (
             <button
               key={item.value}
               onClick={() => onNavigate(item.value)}
-              className={`text-[15px] font-medium transition-colors duration-300 ${
+              className={`text-[15px] font-bold transition-all duration-300 relative group ${
                 currentPage === item.value 
-                  ? 'text-violet-600' 
-                  : 'text-slate-600 hover:text-violet-500'
+                  ? 'text-violet-main' 
+                  : 'text-slate-600 hover:text-primary-blue'
               }`}
             >
               {item.label}
+              <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-blue to-violet-main transition-all duration-300 group-hover:w-full ${currentPage === item.value ? 'w-full' : ''}`}></span>
             </button>
           ))}
         </div>
 
         <div>
-          <button className="bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm hover:shadow-md active:scale-95">
+          <button className="gradient-btn hover:scale-105 active:scale-95 text-white px-7 py-2.5 rounded-full text-sm font-bold transition-all">
             Subscribe
           </button>
         </div>

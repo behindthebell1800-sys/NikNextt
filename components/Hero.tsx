@@ -8,39 +8,40 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-violet-50 py-20 lg:py-32">
-      <div className="max-w-[1140px] mx-auto px-6 relative z-10">
-        <div className="max-w-3xl">
-          <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.1] mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+    <section className="relative overflow-hidden gradient-hero min-h-[85vh] flex items-center pt-20">
+      {/* Animated background shapes */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-pink-highlight/20 rounded-full blur-[100px] animate-float" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-accent/20 rounded-full blur-[120px] animate-float" style={{ animationDelay: '2s' }} />
+      
+      <div className="max-w-[1140px] mx-auto px-6 relative z-10 w-full text-white">
+        <div className="max-w-4xl">
+          <h1 className="text-6xl lg:text-8xl font-extrabold leading-[1.05] mb-8 animate-slow-fade">
             NikNextt<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-blue-500">
-              The upcoming trend in how we learn.
-            </span>
+            <span className="text-amber-accent">Depth</span> over Speed.<br />
+            <span className="opacity-90">Human over Clicks.</span>
           </h1>
-          <p className="text-lg lg:text-xl text-slate-600 leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            Information is everywhere, but understanding is rare. 
-            NikNextt helps you slow down, think deeper, and truly understand complex ideas.
+          <p className="text-xl lg:text-2xl text-white/90 leading-relaxed mb-12 max-w-2xl animate-slow-fade" style={{ animationDelay: '0.2s' }}>
+            We build for clarity, curiosity, and the human desire to truly understand. Welcome to the upcoming trend in how we learn.
           </p>
-          <div className="flex flex-wrap gap-4 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+          <div className="flex flex-wrap gap-5 animate-slow-fade" style={{ animationDelay: '0.4s' }}>
             <button 
               onClick={() => onNavigate('explore')}
-              className="bg-slate-900 hover:bg-slate-800 text-white px-8 py-3.5 rounded-full font-semibold transition-all hover:translate-y-[-2px] shadow-lg shadow-slate-200"
+              className="bg-white text-primary-blue hover:bg-amber-accent hover:text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:translate-y-[-4px] shadow-2xl shadow-black/20"
             >
-              Explore Content
+              Start Exploring
             </button>
             <button 
-              onClick={() => onNavigate('visuals')}
-              className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 px-8 py-3.5 rounded-full font-semibold transition-all hover:translate-y-[-2px]"
+              onClick={() => onNavigate('about')}
+              className="bg-transparent border-2 border-white/40 hover:border-white text-white px-10 py-4 rounded-full font-bold text-lg transition-all"
             >
-              Watch Visuals
+              Our Manifesto
             </button>
           </div>
         </div>
       </div>
-      
-      {/* Decorative Elements */}
-      <div className="absolute top-1/2 -right-20 w-96 h-96 bg-violet-200/30 rounded-full blur-[80px] -z-10 animate-pulse" />
-      <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-blue-200/20 rounded-full blur-[100px] -z-10" />
+
+      {/* Hero-to-Next Section Sync */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-violet-50/50 to-transparent"></div>
     </section>
   );
 };
