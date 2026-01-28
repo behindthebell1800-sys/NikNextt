@@ -2,12 +2,14 @@
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 
-// Declare process for the TypeScript compiler to avoid "variable not found" errors
-// while ensuring it points to the runtime-injected global object.
-declare var process: {
-  env: {
-    API_KEY: string;
-  };
+// Ensure process.env.API_KEY is safely accessible in the browser context
+const getApiKey = () => {
+  try {
+    // Attempt to access via the standard environmental path
+    return (window as any).process?.env?.API_KEY || (process as any)?.env?.API_KEY;
+  } catch {
+    return undefined;
+  }
 };
 
 interface AskResponse {
@@ -33,44 +35,44 @@ export const AskSection: React.FC = () => {
     setResponse(null);
 
     try {
-      /**
-       * INITIALIZATION RULE:
-       * Always use `const ai = new GoogleGenAI({apiKey: process.env.API_KEY});`.
-       * The variable is pre-configured and accessible in the execution context.
-       */
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const apiKey = getApiKey();
       
-      // Using gemini-3-flash-preview for basic Q&A and explanation tasks
+      if (!apiKey) {
+        throw new Error("Clarity link missing: The API brain is not connected. Please ensure the API_KEY is set in the environment.");
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
+      
       const genAIResponse = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: [{ parts: [{ text: query }] }],
         config: {
-          systemInstruction: "You are NikNextt, a world-class educator known for extreme clarity. Your goal is to take a complex topic and explain it in a way that is emotionally satisfying, human, and simple. Avoid all jargon. Use a warm, encouraging tone. Respond in JSON format only.",
+          systemInstruction: `You are the AI brain of "NikNextt". 
+          BRAND RULE: NikNextt turns hours of content into minutes of clarity.
+          Depth over Speed. Human over Clicks.
+          
+          HOW TO ANSWER:
+          - Use all relevant knowledge.
+          - Show ONLY the final structured answer.
+          - Be fast, simple, and direct.
+          - No jargon. Teaching a curious 10-year-old.
+          - No emojis. No filler text.
+          
+          OUTPUT STRUCTURE (Strict JSON):
+          1. QUICK SUMMARY: 2-3 short lines, simple language.
+          2. KEY POINTS: 3-5 bullet points of what matters.
+          3. SIMPLE EXAMPLE: One easy real-life child-friendly analogy.
+          4. VISUAL IDEA: Describe a simple visual (boxes, arrows, steps).
+          5. FINAL TAKEAWAY: One strong sentence to remember.`,
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
             properties: {
-              quickSummary: { 
-                type: Type.STRING, 
-                description: "A 2-3 line warm and clear summary of the core concept." 
-              },
-              keyPoints: { 
-                type: Type.ARRAY, 
-                items: { type: Type.STRING },
-                description: "3 simple, high-impact bullet points." 
-              },
-              simpleExample: { 
-                type: Type.STRING, 
-                description: "A relatable real-world analogy." 
-              },
-              visualIdea: { 
-                type: Type.STRING, 
-                description: "Describe a mental image that helps 'see' the logic." 
-              },
-              finalTakeaway: { 
-                type: Type.STRING, 
-                description: "One powerful sentence to remember." 
-              }
+              quickSummary: { type: Type.STRING },
+              keyPoints: { type: Type.ARRAY, items: { type: Type.STRING } },
+              simpleExample: { type: Type.STRING },
+              visualIdea: { type: Type.STRING },
+              finalTakeaway: { type: Type.STRING }
             },
             required: ["quickSummary", "keyPoints", "simpleExample", "visualIdea", "finalTakeaway"]
           }
@@ -79,22 +81,18 @@ export const AskSection: React.FC = () => {
 
       const text = genAIResponse.text;
       if (text) {
-        // Parse the JSON output from the model
         const cleanJson = text.replace(/```json/g, '').replace(/```/g, '').trim();
         const parsed = JSON.parse(cleanJson);
         setResponse(parsed);
       } else {
-        throw new Error("I thought about it, but couldn't find the words. Try rephrasing your question!");
+        throw new Error("I couldn't distill that topic right now. Please try again.");
       }
     } catch (err: any) {
-      console.error("Ask NikNextt Error:", err);
-      // Map specific error messages to friendly, actionable feedback.
-      if (err.message?.includes('API Key') || err.message?.includes('apiKey') || err.message?.includes('process')) {
-        setError("Clarity link broken: I'm having trouble connecting to my AI brain. Please ensure the API key is correctly configured in your host environment.");
-      } else if (err.message?.includes('429')) {
-        setError("I'm thinking a bit too hard right now! Please wait a moment and try again.");
+      console.error("NikNextt Clarity Engine Error:", err);
+      if (err.message?.includes('429')) {
+        setError("I'm distilling too much right now! Please wait a few seconds.");
       } else {
-        setError(err.message || "Something went wrong while trying to clarify this topic.");
+        setError(err.message || "Something went wrong while finding clarity.");
       }
     } finally {
       setLoading(false);
@@ -103,7 +101,6 @@ export const AskSection: React.FC = () => {
 
   return (
     <section id="ask" className="py-12 sm:py-24 bg-gradient-to-b from-[#F0F4FF] to-white px-4 sm:px-6 scroll-mt-20 overflow-hidden relative">
-      {/* Decorative Brand Accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-brand-blue/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
       
       <div className="max-w-[1140px] mx-auto relative">
@@ -111,9 +108,9 @@ export const AskSection: React.FC = () => {
           <div className="inline-block px-4 py-1.5 bg-brand-blue/10 text-brand-blue rounded-full text-[12px] font-bold uppercase tracking-widest mb-4">
             AI CLARITY ENGINE
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 mb-4">Ask NikNextt</h2>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">Minutes of Clarity</h2>
           <p className="text-slate-600 max-w-xl mx-auto text-lg leading-relaxed">
-            Stuck on a concept? Get a human-friendly breakdown in seconds.
+            Turn complex topics into human logic instantly.
           </p>
         </div>
 
@@ -124,7 +121,7 @@ export const AskSection: React.FC = () => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="What do you want to understand today?"
+                placeholder="What concept needs clarifying?"
                 className="w-full h-16 sm:h-24 px-8 sm:px-12 rounded-[2rem] sm:rounded-full bg-white border-2 border-slate-100 shadow-2xl outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/5 transition-all text-base sm:text-xl pr-12 sm:pr-48"
               />
               <button
@@ -135,10 +132,9 @@ export const AskSection: React.FC = () => {
                 {loading ? (
                   <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
-                  "Explain"
+                  "Clarify"
                 )}
               </button>
-              {/* Mobile overlay button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -153,7 +149,7 @@ export const AskSection: React.FC = () => {
             </div>
             
             <div className="mt-6 flex flex-wrap gap-4 justify-center">
-              {["Explain Entropy", "Neural Networks?", "Mental Models"].map((suggestion) => (
+              {["Explain Entropy", "What is Web3?", "Game Theory"].map((suggestion) => (
                 <button 
                   key={suggestion}
                   type="button" 
@@ -175,34 +171,31 @@ export const AskSection: React.FC = () => {
 
           {response && (
             <div className="space-y-6 animate-fade-up">
-              {/* Quick Summary Card */}
               <div className="bg-white p-8 sm:p-12 rounded-[2.5rem] shadow-xl border border-slate-50 relative overflow-hidden group">
                 <div className="absolute top-0 left-0 w-2 h-full bg-brand-blue group-hover:w-3 transition-all" />
-                <h3 className="text-[11px] font-extrabold text-brand-blue uppercase tracking-[0.2em] mb-6">The Core Idea</h3>
+                <h3 className="text-[11px] font-extrabold text-brand-blue uppercase tracking-[0.2em] mb-6">Quick Summary</h3>
                 <p className="text-xl sm:text-2xl text-slate-800 leading-relaxed font-semibold">
                   {response.quickSummary}
                 </p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                {/* Key Points */}
-                <div className="bg-white p-8 rounded-[2rem] shadow-lg border border-slate-50">
-                  <h3 className="text-[11px] font-extrabold text-brand-violet uppercase tracking-[0.2em] mb-8">Why it matters</h3>
-                  <ul className="space-y-5">
+                <div className="bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100">
+                  <h3 className="text-[11px] font-extrabold text-brand-violet uppercase tracking-[0.2em] mb-8">Key Points</h3>
+                  <ul className="space-y-4">
                     {response.keyPoints.map((point, idx) => (
-                      <li key={idx} className="flex gap-5">
-                        <span className="w-7 h-7 rounded-lg bg-brand-violet/10 text-brand-violet flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                      <li key={idx} className="flex gap-4">
+                        <span className="w-6 h-6 rounded-lg bg-brand-violet/10 text-brand-violet flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
                           {idx + 1}
                         </span>
-                        <p className="text-slate-600 leading-relaxed text-[15px] sm:text-base font-medium">{point}</p>
+                        <p className="text-slate-600 leading-relaxed text-[15px] font-medium">{point}</p>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* Simple Example */}
                 <div className="bg-brand-amber/5 p-8 rounded-[2rem] shadow-lg border border-brand-amber/10 flex flex-col">
-                  <h3 className="text-[11px] font-extrabold text-brand-amber uppercase tracking-[0.2em] mb-8">Human Analogy</h3>
+                  <h3 className="text-[11px] font-extrabold text-brand-amber uppercase tracking-[0.2em] mb-8">Simple Example</h3>
                   <div className="flex-grow flex items-center">
                     <p className="text-slate-700 leading-relaxed text-base sm:text-lg italic font-medium">
                       "{response.simpleExample}"
@@ -211,20 +204,13 @@ export const AskSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Visual Idea */}
-              <div className="bg-gradient-to-br from-brand-teal/10 to-brand-blue/10 p-10 rounded-[2.5rem] border border-brand-teal/20 text-center shadow-lg">
-                <div className="w-16 h-16 rounded-2xl bg-white shadow-xl flex items-center justify-center mx-auto mb-8 animate-float">
-                  <svg className="w-8 h-8 text-brand-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-[11px] font-extrabold text-brand-teal uppercase tracking-[0.2em] mb-4">Picture This</h3>
+              <div className="bg-brand-teal/5 p-10 rounded-[2.5rem] border border-brand-teal/10 text-center shadow-lg">
+                <h3 className="text-[11px] font-extrabold text-brand-teal uppercase tracking-[0.2em] mb-6">Visual Idea</h3>
                 <p className="text-slate-800 max-w-lg mx-auto leading-relaxed text-base sm:text-lg font-medium">
                   {response.visualIdea}
                 </p>
               </div>
 
-              {/* Final Takeaway */}
               <div className="bg-[#0A0D14] p-10 rounded-[2rem] text-center shadow-2xl relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
                 <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.4em] mb-6 relative z-10">THE NIKNEXTT ESSENCE</h3>
