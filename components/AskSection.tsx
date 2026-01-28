@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
-import process from 'process';
 
 interface AskResponse {
   quickSummary: string;
@@ -26,14 +25,9 @@ export const AskSection: React.FC = () => {
     setResponse(null);
 
     try {
-      // Access the API key from the imported process shim
-      const apiKey = process.env.API_KEY;
-      
-      if (!apiKey) {
-        throw new Error("I'm having trouble connecting to my brain (API Key missing). Please check your settings.");
-      }
-
-      const ai = new GoogleGenAI({ apiKey });
+      // Use the recommended initialization format. 
+      // We assume process.env.API_KEY is available globally in this environment.
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       
       // Using gemini-3-flash-preview as recommended for basic Q&A tasks
       const genAIResponse = await ai.models.generateContent({
