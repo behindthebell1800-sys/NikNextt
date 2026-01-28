@@ -25,7 +25,7 @@ import { SiteData, Page, ViewMode } from './types';
  */
 const INITIAL_DATA: SiteData = {
   hero: {
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://mechanical-indigo-wzek7kjv0s.edgeone.app/3D4D9E28-7872-4D28-A61D-9165FCB5FDB2.png',
     supportingLine: 'In a world overflowing with information, we find the core logic that matters.',
     cta: [
       { label: 'Watch on YouTube', url: '#' },
@@ -59,7 +59,7 @@ const INITIAL_DATA: SiteData = {
   },
   founder: {
     name: 'Nikhil Choudhary',
-    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&h=400&q=80',
+    photo: 'https://mechanical-indigo-wzek7kjv0s.edgeone.app/3D4D9E28-7872-4D28-A61D-9165FCB5FDB2.png',
     bio: 'Educator, designer, and perpetual student. Nikolai spent a decade in digital learning before founding NikNextt to solve the problem of information overwhelm. He believes that depth is the new luxury in a fast-paced world.',
     socials: [
       { platform: 'YouTube', url: '#' },
