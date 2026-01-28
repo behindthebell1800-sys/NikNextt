@@ -25,13 +25,13 @@ import { SiteData, Page, ViewMode } from './types';
  */
 const INITIAL_DATA: SiteData = {
   hero: {
-    image: 'https://conventional-olive-as54nj8vpf.edgeone.app/BE99C2AF-25A4-43C1-ACD3-5CAF6135CC07.png',
+    image: 'https://i.postimg.cc/13hf6ktQ/BE99C2AF-25A4-43C1-ACD3-5CAF6135CC07.png',
     supportingLine: 'In a world overflowing with information, we find the core logic that matters.',
     cta: [
-      { label: 'Watch on YouTube', url: '#' },
-      { label: 'Follow on Instagram', url: '#' }
+      { label: 'Watch on YouTube', url: 'https://youtube.com/@niknextt?si=xc7ig8CRdLKguc_Z' },
+      { label: 'Follow on Instagram', url: 'https://www.instagram.com/niknextt?igsh=MTdlcndybXR0NjE1bg%3D%3D&utm_source=qr' }
     ],
-    joinUrl: '#',
+    joinUrl: 'https://www.instagram.com/niknextt?igsh=MTdlcndybXR0NjE1bg%3D%3D&utm_source=qr',
     config: { visible: true }
   },
   whatWeDo: {
@@ -59,11 +59,11 @@ const INITIAL_DATA: SiteData = {
   },
   founder: {
     name: 'Nikhil Choudhary',
-    photo: 'https://mechanical-indigo-wzek7kjv0s.edgeone.app/3D4D9E28-7872-4D28-A61D-9165FCB5FDB2.png',
+    photo: 'https://i.postimg.cc/0j1ymmkz/3D4D9E28-7872-4D28-A61D-9165FCB5FDB2.png',
     bio: 'Educator, designer, and perpetual student. Nikolai spent a decade in digital learning before founding NikNextt to solve the problem of information overwhelm. He believes that depth is the new luxury in a fast-paced world.',
     socials: [
-      { platform: 'YouTube', url: '#' },
-      { platform: 'Instagram', url: '#' },
+      { platform: 'YouTube', url: 'https://youtube.com/@niknextt?si=xc7ig8CRdLKguc_Z' },
+      { platform: 'Instagram', url: 'https://www.instagram.com/niknextt?igsh=MTdlcndybXR0NjE1bg%3D%3D&utm_source=qr' },
       { platform: 'X', url: '#' }
     ],
     config: { visible: true }
@@ -130,8 +130,8 @@ const App: React.FC = () => {
           <>
             {data.hero.config.visible && <HeroSection data={data.hero} isEditMode={false} onUpdate={updateData} />}
             {data.whatWeDo.config.visible && <WhatWeDoSection data={data.whatWeDo} isEditMode={false} onUpdate={updateData} />}
-            {data.featured.config.visible && <FeaturedSection data={data.featured} isEditMode={false} onUpdate={updateData} />}
             {data.askSection?.config.visible && <AskSection />}
+            {data.featured.config.visible && <FeaturedSection data={data.featured} isEditMode={false} onUpdate={updateData} />}
             {data.about.config.visible && <AboutSection data={data.about} isEditMode={false} onUpdate={updateData} />}
             {data.founder.config.visible && <FounderSection data={data.founder} isEditMode={false} onUpdate={updateData} />}
             {data.ctaSection.config.visible && <CTASection data={data.ctaSection} isEditMode={false} onUpdate={updateData} />}
@@ -160,7 +160,7 @@ const App: React.FC = () => {
         {renderPage()}
       </main>
 
-      <Footer onAdminClick={handleAdminClick} />
+      <Footer onAdminClick={handleAdminClick} socials={data.founder.socials} />
     </div>
   );
 };

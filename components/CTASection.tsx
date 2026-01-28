@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SiteData } from '../types';
 
@@ -43,6 +44,8 @@ export const CTASection: React.FC<SectionProps> = ({ data, isEditMode, onUpdate 
                   )}
                   <a 
                     href={btn.url} 
+                    target={btn.url && btn.url.startsWith('http') ? "_blank" : undefined}
+                    rel={btn.url && btn.url.startsWith('http') ? "noopener noreferrer" : undefined}
                     className={`flex items-center justify-center h-[50px] sm:h-auto px-10 py-5 rounded-full font-extrabold text-[16px] sm:text-xl transition-all block w-full ${idx === 0 ? 'bg-white text-brand-violet hover:scale-105 shadow-xl' : 'bg-transparent border-2 border-white/40 hover:border-white text-white'}`}
                   >
                     {btn.label}

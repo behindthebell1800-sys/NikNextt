@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SiteData } from '../types';
 
@@ -86,7 +87,13 @@ export const FounderSection: React.FC<SectionProps> = ({ data, isEditMode, onUpd
             
             <div className="flex flex-wrap gap-4 sm:gap-6">
               {data.socials.map((social, idx) => (
-                <a key={idx} href={social.url} className="text-slate-500 hover:text-brand-blue transition-all flex items-center gap-3 font-bold group h-12">
+                <a 
+                  key={idx} 
+                  href={social.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-slate-500 hover:text-brand-blue transition-all flex items-center gap-3 font-bold group h-12"
+                >
                   <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-brand-blue/10 group-hover:text-brand-blue transition-all">
                     <SocialIcon platform={social.platform} />
                   </div>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SiteData } from '../types';
 
@@ -54,7 +55,9 @@ export const HeroSection: React.FC<HeroProps> = ({ data, isEditMode, onUpdate })
                   </div>
                 )}
                 <a 
-                  href={btn.url} 
+                  href={btn.url}
+                  target={btn.url.startsWith('http') ? "_blank" : undefined}
+                  rel={btn.url.startsWith('http') ? "noopener noreferrer" : undefined}
                   className={`flex items-center justify-center w-full sm:w-auto h-[44px] sm:h-auto px-8 sm:py-4 rounded-full font-bold text-[15px] sm:text-lg transition-all ${idx === 0 ? 'gradient-btn text-white' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'}`}
                 >
                   {btn.label}

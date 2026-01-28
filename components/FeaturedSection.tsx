@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SiteData, Card } from '../types';
 
@@ -51,7 +52,7 @@ export const FeaturedSection: React.FC<SectionProps> = ({ data, isEditMode, onUp
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
           {data.cards.map((card, idx) => (
             <div key={card.id} className="group relative bg-white rounded-[16px] sm:rounded-3xl overflow-hidden border border-slate-100 card-hover mb-5 sm:mb-0">
-              <div className="aspect-[16/10] sm:aspect-[16/10] overflow-hidden relative">
+              <div className="aspect-[16/10] overflow-hidden relative">
                 <img src={card.thumbnail} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 rounded-[12px] sm:rounded-none m-0 sm:m-0" />
                 {isEditMode && (
                   <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity p-4">
@@ -93,7 +94,12 @@ export const FeaturedSection: React.FC<SectionProps> = ({ data, isEditMode, onUp
                     <p className="text-slate-500 text-sm leading-relaxed mb-4 sm:mb-6 line-clamp-2">{card.description}</p>
                   </>
                 )}
-                <a href={card.url} className="text-brand-blue font-bold text-sm inline-flex items-center gap-2 group/link h-10">
+                <a 
+                  href={card.url} 
+                  target={card.url && card.url.startsWith('http') ? "_blank" : undefined}
+                  rel={card.url && card.url.startsWith('http') ? "noopener noreferrer" : undefined}
+                  className="text-brand-blue font-bold text-sm inline-flex items-center gap-2 group/link h-10"
+                >
                   Dive Deeper 
                   <svg className="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
