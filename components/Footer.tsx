@@ -1,8 +1,10 @@
 
 import React from 'react';
+import { Page } from '../types';
 
 interface FooterProps {
   onAdminClick?: () => void;
+  onNavigate?: (page: Page) => void;
   socials?: { platform: string; url: string; }[];
 }
 
@@ -29,84 +31,104 @@ const SocialIcon = ({ platform }: { platform: string }) => {
           <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.494h2.039L6.486 3.24H4.298l13.311 17.407z" />
         </svg>
       );
+    case 'linkedin':
+      return (
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+        </svg>
+      );
     default:
-      return <span>{platform[0]}</span>;
+      return null;
   }
 };
 
-export const Footer: React.FC<FooterProps> = ({ onAdminClick, socials }) => {
+export const Footer: React.FC<FooterProps> = ({ socials, onNavigate }) => {
+  const handleShare = async () => {
+    const shareData = {
+      title: 'NikNextt',
+      text: 'Turning hours of content into minutes of clarity.',
+      url: window.location.origin,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.log('Share failed', err);
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.origin);
+      alert('Link copied to clipboard!');
+    }
+  };
+
+  const getUrl = (platform: string) => {
+    return socials?.find(s => s.platform.toLowerCase() === platform.toLowerCase())?.url || '#';
+  };
+
   return (
-    <footer className="bg-[#0A0D14] text-white pt-12 sm:pt-24 pb-8 sm:pb-12 relative px-4 sm:px-6">
-      <div className="max-w-[1140px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 sm:gap-12 mb-12 sm:mb-20">
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-6 gradient-text">NikNextt</h3>
-            <p className="text-slate-400 text-sm sm:text-lg max-w-sm mb-6 sm:mb-8 leading-[20px] sm:leading-relaxed">
-              Turning hours of content into minutes of clarity. 
-              The knowledge brand for the next generation of thinkers.
-            </p>
-            <div className="flex gap-4">
-              {socials?.map(s => (
-                <a 
-                  key={s.platform} 
-                  href={s.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-brand-blue/20 transition-colors"
-                  title={s.platform}
-                >
-                  <SocialIcon platform={s.platform} />
-                </a>
-              )) || ['Instagram', 'YouTube', 'X'].map(s => (
-                <a key={s} href="#" className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-brand-blue/20 transition-colors">
-                  <div className="w-4 h-4 rounded-sm bg-white/20" />
-                </a>
-              ))}
-            </div>
-          </div>
-          
-          <div className="hidden sm:block">
-            <h4 className="font-bold text-lg mb-6">Explore</h4>
-            <ul className="space-y-4 text-slate-400">
-              <li><a href="#" className="hover:text-white transition-colors">Archive</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Visuals</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Newsletter</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Shop</a></li>
-            </ul>
-          </div>
-          
-          <div className="hidden sm:block">
-            <h4 className="font-bold text-lg mb-6">NikNextt</h4>
-            <ul className="space-y-4 text-slate-400">
-              <li><a href="#" className="hover:text-white transition-colors">Our Story</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
-            </ul>
-          </div>
+    <footer className="bg-[#0B0F1A] text-slate-400 py-20 sm:py-28 px-6 relative overflow-hidden">
+      {/* Subtle Grain Texture Overlay */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
 
-          {/* Simple list for mobile */}
-          <div className="flex sm:hidden flex-wrap gap-x-6 gap-y-2 text-xs text-slate-500 font-bold uppercase tracking-widest">
-            <a href="#">Explore</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-            <a href="#">Privacy</a>
-          </div>
-        </div>
+      <div className="max-w-[800px] mx-auto text-center relative z-10 flex flex-col items-center">
         
-        <div className="border-t border-white/5 pt-8 sm:pt-12 text-center text-slate-500 text-[13px] leading-[20px] font-medium">
-          <p>© 2024 NikNextt. Built for humans, by humans.</p>
+        {/* Top Row: Brand Identity */}
+        <div className="mb-12">
+          <h3 className="text-3xl font-extrabold text-white tracking-tight mb-4">NikNextt</h3>
+          <p className="text-slate-500 text-lg sm:text-xl leading-relaxed max-w-md mx-auto">
+            Turning hours of content into minutes of clarity.<br />
+            Clear thinking. No noise.
+          </p>
         </div>
-      </div>
 
-      {/* Discreet Admin Entry - Stealth Mode */}
-      <button 
-        onClick={onAdminClick}
-        className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 text-[12px] opacity-[0.12] cursor-pointer text-slate-500 hover:opacity-[0.12] active:opacity-[0.12] transition-none outline-none border-none bg-transparent p-1"
-        aria-hidden="true"
-      >
-        NIK
-      </button>
+        {/* Middle Row: Informative Links */}
+        <div className="flex flex-wrap justify-center gap-x-10 gap-y-6 mb-16 text-sm font-semibold tracking-wide uppercase">
+          <button onClick={() => onNavigate?.('about')} className="hover:text-white transition-colors">About NikNextt</button>
+          <button onClick={() => onNavigate?.('founder')} className="hover:text-white transition-colors">Founder</button>
+          <button onClick={() => onNavigate?.('visuals')} className="hover:text-white transition-colors">Explain Videos</button>
+          <div className="flex items-center gap-2 opacity-60 cursor-default">
+            <span>Ask NikNextt</span>
+            <span className="text-[10px] border border-slate-700 px-2 py-0.5 rounded text-slate-500 font-black tracking-tighter">Soon</span>
+          </div>
+        </div>
+
+        {/* Bottom Section: Socials & Share */}
+        <div className="flex flex-col items-center gap-10 mb-20">
+          <div className="flex items-center gap-10">
+            {['YouTube', 'Instagram', 'X', 'LinkedIn'].map((platform) => (
+              <a 
+                key={platform}
+                href={getUrl(platform)} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-500 hover:text-white hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.5)] transition-all transform hover:scale-110 active:scale-95"
+                title={platform}
+              >
+                <SocialIcon platform={platform} />
+              </a>
+            ))}
+          </div>
+          
+          <button 
+            onClick={handleShare}
+            className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-slate-500 hover:text-white transition-colors group px-6 py-3 border border-transparent hover:border-slate-800 rounded-full"
+          >
+            <svg className="w-5 h-5 opacity-40 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+            Share NikNextt
+          </button>
+        </div>
+
+        {/* Bottom Line */}
+        <div className="w-full pt-10 border-t border-slate-900/40 flex flex-col items-center">
+          <p className="text-[12px] font-bold text-slate-600 uppercase tracking-[0.4em] text-center">
+            © {new Date().getFullYear()} NikNextt — Designed for clarity, not clicks.
+          </p>
+        </div>
+
+      </div>
     </footer>
   );
 };

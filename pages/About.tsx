@@ -3,50 +3,87 @@ import React from 'react';
 
 export const About: React.FC = () => {
   return (
-    <div className="animate-in fade-in duration-700">
-      <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
-        <div className="max-w-[800px] mx-auto px-6">
-          <h1 className="text-5xl font-bold text-slate-900 mb-10 text-center">About NikNextt</h1>
-          
+    <div className="animate-in fade-in duration-700 bg-white min-h-screen">
+      <div className="max-w-[800px] mx-auto px-6 py-16 lg:py-28">
+        
+        {/* SECTION 1 — INTRO */}
+        <section className="mb-24 lg:mb-32">
+          <h1 className="text-4xl lg:text-6xl font-extrabold text-slate-900 mb-8 tracking-tight">
+            About NikNextt
+          </h1>
+          <p className="text-xl lg:text-2xl text-slate-600 leading-relaxed font-medium">
+            Information is everywhere, yet true understanding has become rare. NikNextt exists to reduce the noise and bring clarity to a complex world.
+          </p>
+        </section>
+
+        {/* SECTION 2 — THE PROBLEM */}
+        <section className="mb-24 lg:mb-32">
+          <h2 className="text-xs font-bold text-slate-400 mb-6 uppercase tracking-[0.3em]">The Challenge</h2>
           <div className="space-y-8 text-lg text-slate-600 leading-relaxed">
             <p>
-              NikNextt was created to help people understand, not just consume. 
-              In a world that feels increasingly fast, shallow, and noisy, this platform is a pause — a place to think, learn, and grow.
+              We are living through an era of information obesity. There is more high-quality content available than ever before, but our time remains a finite resource.
             </p>
-            
-            <div className="bg-violet-50 p-8 rounded-3xl border border-violet-100 my-12">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Our Philosophy</h3>
-              <p className="italic">
-                "Real knowledge isn't about how much you can memorize, but how clearly you can connect the dots. 
-                We don't want to give you more facts; we want to give you better frameworks."
-              </p>
-            </div>
-
             <p>
-              We believe that the best way to prepare for the future is to understand the fundamentals. 
-              Whether it's the physics of the stars, the psychology of our behavior, or the systems of 
-              our economy, everything is connected.
+              Most people consume content at a rapid pace scrolling through insights, listening at double speed, and checking off lists without ever truly retaining what they have heard. 
             </p>
-            
             <p>
-              NikNextt is a labor of love by a small team of educators, designers, and thinkers 
-              who believe that the internet can still be a place for deep concentration.
+              Important ideas that could actually change how we think or work often get lost in the endless stream. We are consuming more, but understanding less.
             </p>
           </div>
+        </section>
 
-          <div className="mt-20 pt-10 border-t border-slate-100 flex items-center gap-6">
-            <img 
-              src="https://picsum.photos/id/64/100/100" 
-              alt="Founder" 
-              className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
-            />
-            <div>
-              <p className="font-bold text-slate-900">Nikolai Rossi</p>
-              <p className="text-sm text-slate-500">Founder, NikNextt</p>
-            </div>
+        {/* SECTION 3 — WHAT NIKNEXTT DOES */}
+        <section className="mb-24 lg:mb-32 p-10 sm:p-16 bg-slate-50 rounded-[3rem] border border-slate-100">
+          <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-8">What we do</h2>
+          <div className="space-y-8 text-lg text-slate-600 leading-relaxed">
+            <p>
+              Our process is simple but deliberate. We take long-form content videos, podcasts, and complex academic topics and break them down into their most essential elements.
+            </p>
+            <p>
+              We do not just summarize; we synthesize. We extract the core logic and explain it in a way that is easy to grasp, whether you are an expert or a curious learner. 
+            </p>
+            <p>
+              Our goal is to provide you with the mental frameworks you need to understand a topic deeply, in just a fraction of the time it would normally take.
+            </p>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* SECTION 4 — PHILOSOPHY */}
+        <section className="mb-24 lg:mb-32 text-center py-16 border-y border-slate-100">
+          <blockquote className="text-2xl lg:text-4xl font-extrabold text-slate-900 leading-tight mb-10 max-w-2xl mx-auto">
+            “If something cannot be explained clearly, it is not understood deeply.”
+          </blockquote>
+          <div className="max-w-xl mx-auto space-y-6 text-slate-600">
+            <p className="text-lg">
+              We value clarity over volume. We believe that learning is not about how much you know, but how well you understand what you know. 
+            </p>
+            <p className="text-lg">
+              By slowing down complex ideas and stripping away the fluff, we make deep understanding accessible to everyone.
+            </p>
+          </div>
+        </section>
+
+        {/* SECTION 5 — WHO THIS IS FOR */}
+        <section className="mb-24 lg:mb-32">
+          <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-8">Who this is for</h2>
+          <div className="space-y-8 text-lg text-slate-600 leading-relaxed">
+            <p>
+              NikNextt is for the curious minds. It is for the lifelong learners who are tired of shallow summaries and clickbait headlines.
+            </p>
+            <p>
+              It is for people who value their time and want to reach the meaning behind the noise. If you are someone who wants to understand the world a little better every day without sacrificing your peace of mind, you are in the right place.
+            </p>
+          </div>
+        </section>
+
+        {/* SECTION 6 — CLOSING */}
+        <section className="pt-16 border-t border-slate-100">
+          <p className="text-2xl text-slate-800 font-bold leading-relaxed max-w-2xl">
+            Clarity is not just a goal; it is a way of seeing. We invite you to explore our insights and join us in our pursuit of deeper understanding.
+          </p>
+        </section>
+
+      </div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SiteData } from '../types';
 
@@ -22,9 +23,9 @@ export const WhatWeDoSection: React.FC<SectionProps> = ({ data, isEditMode, onUp
           <div className="w-16 h-1.5 gradient-hero mx-auto rounded-full" />
         </div>
         
-        <div className="grid md:grid-cols-3 gap-5 sm:gap-8">
+        <div className="grid md:grid-cols-3 gap-8 sm:gap-8">
           {data.cards.map((card, idx) => (
-            <div key={card.id} className="p-5 sm:p-10 rounded-[1.5rem] sm:rounded-[2.5rem] bg-[#F8FAFF] border border-slate-100 card-hover mb-0">
+            <div key={card.id} className="p-5 sm:p-10 rounded-[1.5rem] sm:rounded-[2.5rem] bg-[#F8FAFF] border border-slate-100 card-hover">
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-brand-blue/20 to-brand-violet/20 flex items-center justify-center mb-6 sm:mb-8">
                 <span className="text-xl sm:text-2xl">
                   {idx === 0 ? '🔍' : idx === 1 ? '🎨' : '⚡'}

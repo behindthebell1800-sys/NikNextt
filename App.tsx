@@ -19,9 +19,7 @@ import { Explore } from './pages/Explore';
 import { SiteData, Page, ViewMode } from './types';
 
 /**
- * PASTE YOUR EXPORTED JSON CONFIGURATION BELOW
- * To make your visual edits permanent, replace the INITIAL_DATA object 
- * with the JSON you get from the "Export Config" button in the Admin Portal.
+ * INITIAL_DATA object configuration
  */
 const INITIAL_DATA: SiteData = {
   hero: {
@@ -60,11 +58,12 @@ const INITIAL_DATA: SiteData = {
   founder: {
     name: 'Nikhil Choudhary',
     photo: 'https://i.postimg.cc/0j1ymmkz/3D4D9E28-7872-4D28-A61D-9165FCB5FDB2.png',
-    bio: 'Educator, designer, and perpetual student. Nikolai spent a decade in digital learning before founding NikNextt to solve the problem of information overwhelm. He believes that depth is the new luxury in a fast-paced world.',
+    bio: 'Nikhil Choudhary is a digital creator and marketer focused on clarity over noise. With experience in content, design, and automation, he builds simple systems and explanations that help people learn faster, work smarter, and grow without losing the human touch.',
     socials: [
       { platform: 'YouTube', url: 'https://youtube.com/@niknextt?si=xc7ig8CRdLKguc_Z' },
       { platform: 'Instagram', url: 'https://www.instagram.com/niknextt?igsh=MTdlcndybXR0NjE1bg%3D%3D&utm_source=qr' },
-      { platform: 'X', url: '#' }
+      { platform: 'X', url: '#' },
+      { platform: 'LinkedIn', url: '#' }
     ],
     config: { visible: true }
   },
@@ -79,9 +78,7 @@ const INITIAL_DATA: SiteData = {
 };
 
 const App: React.FC = () => {
-  // Local storage logic removed. Always starts with INITIAL_DATA.
   const [data, setData] = useState<SiteData>(INITIAL_DATA);
-  
   const [viewMode, setViewMode] = useState<ViewMode>('public');
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -152,15 +149,20 @@ const App: React.FC = () => {
     }
   };
 
+  const navigateAndScroll = (page: Page) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar currentPage={currentPage} onNavigate={setCurrentPage} joinUrl={data.hero.joinUrl} />
+      <Navbar currentPage={currentPage} onNavigate={navigateAndScroll} joinUrl={data.hero.joinUrl} />
       
       <main className="flex-grow pt-20">
         {renderPage()}
       </main>
 
-      <Footer onAdminClick={handleAdminClick} socials={data.founder.socials} />
+      <Footer onAdminClick={handleAdminClick} onNavigate={navigateAndScroll} socials={data.founder.socials} />
     </div>
   );
 };
