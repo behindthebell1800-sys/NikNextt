@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
 
 interface AskResponse {
   quickSummary: string;
@@ -24,79 +23,12 @@ export const AskSection: React.FC = () => {
     setError(null);
     setResponse(null);
 
-    try {
-      // Per system instructions: Always use process.env.API_KEY directly.
-      const apiKey = process.env.API_KEY;
-      
-      if (!apiKey) {
-        throw new Error("Clarity Link Interrupted: I'm having trouble connecting to my brain (API Key missing). Please check your settings.");
-      }
-
-      const ai = new GoogleGenAI({ apiKey });
-      
-      // Using gemini-3-flash-preview for fast, simple, and direct clarifications.
-      const genAIResponse = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: [{ parts: [{ text: query }] }],
-        config: {
-          systemInstruction: `You are the AI brain of "NikNextt". 
-Your role: Turn long, complex information into simple, fast, clear explanations.
-
-CORE BRAND RULE: NikNextt turns hours of content into minutes of clarity.
-
-HOW TO ANSWER:
-- Explain like teaching a curious 10-year-old.
-- Calm, friendly, confident tone.
-- Short sentences. No jargon unless explained simply.
-- No emojis. No filler text. No mentioning sources. No explaining reasoning.
-- If the question is unclear, ask ONE short clarification question.
-- Do not provide medical, legal, or harmful advice.
-
-OUTPUT FORMAT (MANDATORY JSON):
-1. QUICK SUMMARY: 2-3 short lines, very simple language.
-2. KEY POINTS: 3-5 bullet points, only what matters.
-3. SIMPLE EXAMPLE: One easy real-life example, child-friendly.
-4. VISUAL IDEA: Describe a simple visual (boxes, arrows, steps).
-5. FINAL TAKEAWAY: One strong sentence to remember.`,
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              quickSummary: { type: Type.STRING },
-              keyPoints: { type: Type.ARRAY, items: { type: Type.STRING } },
-              simpleExample: { type: Type.STRING },
-              visualIdea: { type: Type.STRING },
-              finalTakeaway: { type: Type.STRING }
-            },
-            required: ["quickSummary", "keyPoints", "simpleExample", "visualIdea", "finalTakeaway"]
-          }
-        },
-      });
-
-      const text = genAIResponse.text;
-      if (text) {
-        // Cleaning up any potential markdown formatting from the response
-        const cleanJson = text.replace(/```json/g, '').replace(/```/g, '').trim();
-        const parsed = JSON.parse(cleanJson);
-        setResponse(parsed);
-      } else {
-        throw new Error("I thought about it, but the path to clarity was blocked. Try asking another way!");
-      }
-    } catch (err: any) {
-      console.error("Ask NikNextt Error:", err);
-      // Friendly, human-readable error messages based on the specific issue
-      if (err.message?.includes('API Key missing')) {
-        setError(err.message);
-      } else if (err.message?.includes('429')) {
-        setError("I'm thinking a bit too hard right now! Please wait a few seconds and try again.");
-      } else if (err.message?.includes('403')) {
-        setError("My access to the clarity engine seems restricted. Let's try again in a bit.");
-      } else {
-        setError("Something went wrong while trying to clarify this topic. Let's give it another go.");
-      }
-    } finally {
+    // The API key is currently being configured. 
+    // We simulate a brief "distilling" delay to maintain the UI feel, then show the 'Coming Soon' message.
+    setTimeout(() => {
       setLoading(false);
-    }
+      setError("Sorry for the inconvenience, NikNextt's AI Clarity Engine is coming soon! We're currently fine-tuning my brain for maximum clarity.");
+    }, 1200);
   };
 
   return (
@@ -167,9 +99,9 @@ OUTPUT FORMAT (MANDATORY JSON):
           </form>
 
           {error && (
-            <div className="p-10 bg-red-50 border border-red-100 rounded-[2.5rem] text-red-600 text-center animate-fade-up font-semibold shadow-inner">
+            <div className="p-10 bg-brand-blue/5 border border-brand-blue/10 rounded-[2.5rem] text-slate-700 text-center animate-fade-up font-semibold shadow-inner">
               <div className="text-3xl mb-4">🧠</div>
-              <p className="text-lg">{error}</p>
+              <p className="text-lg leading-relaxed max-w-md mx-auto">{error}</p>
             </div>
           )}
 
