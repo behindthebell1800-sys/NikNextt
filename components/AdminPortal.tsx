@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SiteData, Card, ButtonLink } from '../types';
+import { SiteData, Card } from '../types';
 
 interface AdminPortalProps {
   data: SiteData;
@@ -14,6 +14,8 @@ const InputLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 export const AdminPortal: React.FC<AdminPortalProps> = ({ data, onUpdate, onLogout, onBackToSite }) => {
   const [activeTab, setActiveTab] = useState<'content' | 'visibility' | 'featured'>('content');
+  const [showExport, setShowExport] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState(false);
 
   const handleCardUpdate = (section: 'whatWeDo' | 'featured', idx: number, field: string, value: any) => {
     const cards = [...data[section].cards];
@@ -23,6 +25,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ data, onUpdate, onLogo
 
   const handleVisibility = (section: keyof SiteData) => {
     onUpdate(`${section}.config.visible`, !data[section].config.visible);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+    setCopyFeedback(true);
+    setTimeout(() => setCopyFeedback(false), 2000);
   };
 
   return (
@@ -51,9 +59,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ data, onUpdate, onLogo
           ))}
         </nav>
 
-        <div className="pt-8 border-t border-slate-100 space-y-4">
+        <div className="pt-8 border-t border-slate-100 space-y-2">
+          <button 
+            onClick={() => setShowExport(true)}
+            className="w-full text-left px-6 py-3 text-sm font-bold text-brand-blue hover:bg-brand-blue/5 rounded-xl flex items-center gap-2 transition-colors"
+          >
+            <span>💾</span> Export Config
+          </button>
           <button onClick={onBackToSite} className="w-full text-left px-6 py-3 text-sm font-bold text-slate-600 hover:text-brand-blue flex items-center gap-2">
-            <span>←</span> Back to Public Site
+            <span>←</span> Back to Site
           </button>
           <button onClick={onLogout} className="w-full text-left px-6 py-3 text-sm font-bold text-red-500 hover:text-red-600 flex items-center gap-2">
             <span>⎋</span> Logout
@@ -203,6 +217,42 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ data, onUpdate, onLogo
           </div>
         )}
       </main>
+
+      {/* Export Modal */}
+      {showExport && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[300] flex items-center justify-center p-6">
+          <div className="bg-white w-full max-w-4xl rounded-[2.5rem] shadow-2xl flex flex-col max-h-[90vh]">
+            <div className="p-10 border-b border-slate-100 flex justify-between items-center">
+              <div>
+                <h3 className="text-2xl font-extrabold text-slate-900">Export Site Configuration</h3>
+                <p className="text-slate-500 font-medium mt-1">Copy this JSON and paste it into INITIAL_DATA in App.tsx to save changes permanently.</p>
+              </div>
+              <button onClick={() => setShowExport(false)} className="w-12 h-12 rounded-full hover:bg-slate-50 flex items-center justify-center transition-colors">
+                <svg className="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            <div className="flex-grow overflow-auto p-10">
+              <pre className="bg-slate-900 text-brand-teal p-8 rounded-3xl text-sm font-mono leading-relaxed overflow-x-auto">
+                {JSON.stringify(data, null, 2)}
+              </pre>
+            </div>
+
+            <div className="p-10 border-t border-slate-100 flex justify-end gap-4">
+              <button 
+                onClick={copyToClipboard}
+                className={`px-10 py-4 rounded-2xl font-bold transition-all flex items-center gap-3 ${copyFeedback ? 'bg-brand-teal text-white' : 'bg-brand-blue text-white shadow-lg shadow-brand-blue/20'}`}
+              >
+                {copyFeedback ? (
+                  <><span>✓</span> Copied!</>
+                ) : (
+                  <><span>📋</span> Copy to Clipboard</>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

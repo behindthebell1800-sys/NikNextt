@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HeroSection } from './components/HeroSection';
@@ -17,6 +18,11 @@ import { About } from './pages/About';
 import { Explore } from './pages/Explore';
 import { SiteData, Page, ViewMode } from './types';
 
+/**
+ * PASTE YOUR EXPORTED JSON CONFIGURATION BELOW
+ * To make your visual edits permanent, replace the INITIAL_DATA object 
+ * with the JSON you get from the "Export Config" button in the Admin Portal.
+ */
 const INITIAL_DATA: SiteData = {
   hero: {
     image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
@@ -52,7 +58,7 @@ const INITIAL_DATA: SiteData = {
     config: { visible: true }
   },
   founder: {
-    name: 'Nikolai Rossi',
+    name: 'Nikhil Choudhary',
     photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&h=400&q=80',
     bio: 'Educator, designer, and perpetual student. Nikolai spent a decade in digital learning before founding NikNextt to solve the problem of information overwhelm. He believes that depth is the new luxury in a fast-paced world.',
     socials: [
@@ -73,20 +79,12 @@ const INITIAL_DATA: SiteData = {
 };
 
 const App: React.FC = () => {
-  const [data, setData] = useState<SiteData>(() => {
-    const saved = localStorage.getItem('niknextt_site_data');
-    return saved ? JSON.parse(saved) : INITIAL_DATA;
-  });
+  // Local storage logic removed. Always starts with INITIAL_DATA.
+  const [data, setData] = useState<SiteData>(INITIAL_DATA);
   
   const [viewMode, setViewMode] = useState<ViewMode>('public');
   const [currentPage, setCurrentPage] = useState<Page>('home');
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('niknextt_admin_session') === 'active';
-  });
-
-  useEffect(() => {
-    localStorage.setItem('niknextt_site_data', JSON.stringify(data));
-  }, [data]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const updateData = (path: string, value: any) => {
     const keys = path.split('.');
@@ -104,14 +102,12 @@ const App: React.FC = () => {
   const handleLogin = (success: boolean) => {
     if (success) {
       setIsLoggedIn(true);
-      localStorage.setItem('niknextt_admin_session', 'active');
       setViewMode('admin');
     }
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem('niknextt_admin_session');
     setViewMode('public');
   };
 
