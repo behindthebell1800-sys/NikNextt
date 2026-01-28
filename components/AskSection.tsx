@@ -2,6 +2,14 @@
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 
+// Declare process for the TypeScript compiler to avoid "variable not found" errors
+// while ensuring it points to the runtime-injected global object.
+declare var process: {
+  env: {
+    API_KEY: string;
+  };
+};
+
 interface AskResponse {
   quickSummary: string;
   keyPoints: string[];
@@ -25,11 +33,14 @@ export const AskSection: React.FC = () => {
     setResponse(null);
 
     try {
-      // Use the recommended initialization format. 
-      // We assume process.env.API_KEY is available globally in this environment.
+      /**
+       * INITIALIZATION RULE:
+       * Always use `const ai = new GoogleGenAI({apiKey: process.env.API_KEY});`.
+       * The variable is pre-configured and accessible in the execution context.
+       */
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       
-      // Using gemini-3-flash-preview as recommended for basic Q&A tasks
+      // Using gemini-3-flash-preview for basic Q&A and explanation tasks
       const genAIResponse = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: [{ parts: [{ text: query }] }],
@@ -68,22 +79,22 @@ export const AskSection: React.FC = () => {
 
       const text = genAIResponse.text;
       if (text) {
-        // More robust JSON cleaning in case of markdown artifacts
+        // Parse the JSON output from the model
         const cleanJson = text.replace(/```json/g, '').replace(/```/g, '').trim();
         const parsed = JSON.parse(cleanJson);
         setResponse(parsed);
       } else {
-        throw new Error("The model didn't return a clear answer. Try rephrasing your question!");
+        throw new Error("I thought about it, but couldn't find the words. Try rephrasing your question!");
       }
     } catch (err: any) {
       console.error("Ask NikNextt Error:", err);
-      // Friendly, human-readable error messages
-      if (err.message?.includes('403') || err.message?.includes('API key')) {
-        setError("My API access seems restricted. Please ensure the API key is valid.");
+      // Map specific error messages to friendly, actionable feedback.
+      if (err.message?.includes('API Key') || err.message?.includes('apiKey') || err.message?.includes('process')) {
+        setError("Clarity link broken: I'm having trouble connecting to my AI brain. Please ensure the API key is correctly configured in your host environment.");
       } else if (err.message?.includes('429')) {
-        setError("I'm thinking a bit too hard right now! Please wait a few seconds and try again.");
+        setError("I'm thinking a bit too hard right now! Please wait a moment and try again.");
       } else {
-        setError(err.message || "I couldn't clarify that right now. Let's try again in a moment.");
+        setError(err.message || "Something went wrong while trying to clarify this topic.");
       }
     } finally {
       setLoading(false);
@@ -91,8 +102,8 @@ export const AskSection: React.FC = () => {
   };
 
   return (
-    <section className="py-12 sm:py-24 bg-gradient-to-b from-[#F0F4FF] to-white px-4 sm:px-6 scroll-mt-20 overflow-hidden relative">
-      {/* Decorative Blur */}
+    <section id="ask" className="py-12 sm:py-24 bg-gradient-to-b from-[#F0F4FF] to-white px-4 sm:px-6 scroll-mt-20 overflow-hidden relative">
+      {/* Decorative Brand Accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-brand-blue/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
       
       <div className="max-w-[1140px] mx-auto relative">
@@ -127,7 +138,7 @@ export const AskSection: React.FC = () => {
                   "Explain"
                 )}
               </button>
-              {/* Mobile Button Overlay */}
+              {/* Mobile overlay button */}
               <button
                 type="submit"
                 disabled={loading}
