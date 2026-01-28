@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
+import process from 'process';
 
 interface AskResponse {
   quickSummary: string;
@@ -25,8 +26,8 @@ export const AskSection: React.FC = () => {
     setResponse(null);
 
     try {
-      // Use the global process object directly to avoid import-shadowing issues
-      const apiKey = (window as any).process?.env?.API_KEY || (process as any)?.env?.API_KEY;
+      // Access the API key from the imported process shim
+      const apiKey = process.env.API_KEY;
       
       if (!apiKey) {
         throw new Error("I'm having trouble connecting to my brain (API Key missing). Please check your settings.");
