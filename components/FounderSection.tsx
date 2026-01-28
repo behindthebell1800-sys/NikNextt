@@ -41,12 +41,12 @@ export const FounderSection: React.FC<SectionProps> = ({ data, isEditMode, onUpd
     <section className="py-12 sm:py-24 bg-[#F8FAFF] px-4 sm:px-6">
       <div className="max-w-[1140px] mx-auto">
         <div className="bg-white rounded-[2rem] sm:rounded-[3rem] p-8 lg:p-20 shadow-xl border border-slate-100 flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-16">
-          <div className="w-full lg:w-1/3 relative group">
-            <div className="w-full sm:w-64 aspect-square sm:aspect-auto sm:h-64 max-h-[320px] rounded-[16px] sm:rounded-full overflow-hidden border-4 sm:border-8 border-slate-50 shadow-2xl mx-auto lg:mx-0">
+          <div className="w-full lg:w-1/3 relative group flex justify-center lg:justify-start">
+            <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden border-4 sm:border-8 border-slate-50 shadow-2xl lg:mx-0">
               <img src={data.photo} alt={data.name} className="w-full h-full object-cover" />
             </div>
             {isEditMode && (
-              <div className="absolute inset-0 bg-black/60 rounded-[16px] sm:rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity p-6">
+              <div className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity p-6">
                 <input 
                   type="text" 
                   className="w-full px-4 py-2 rounded-lg text-xs"
