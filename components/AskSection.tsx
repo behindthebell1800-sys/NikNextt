@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
+import process from 'process';
 
 interface AskResponse {
   quickSummary: string;
@@ -24,7 +25,12 @@ export const AskSection: React.FC = () => {
     setResponse(null);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const apiKey = process.env.API_KEY;
+      if (!apiKey) {
+        throw new Error("API Key not found. Please check your environment configuration.");
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
       const genAIResponse = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: query,
@@ -38,8 +44,8 @@ export const AskSection: React.FC = () => {
           - Use very simple words (beginner-level).
           - No technical jargon unless explained simply.
           - Be fast and direct.
-          - Explain like teaching a curios 10-year-old.
-          Respond in JSON format according to the provided schema.`,
+          - Explain like teaching a curious 10-year-old.
+          Respond in valid JSON format.`,
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
@@ -59,13 +65,15 @@ export const AskSection: React.FC = () => {
         },
       });
 
-      const text = genAIResponse.text;
+      let text = genAIResponse.text;
       if (text) {
-        setResponse(JSON.parse(text.trim()));
+        // Remove markdown code blocks if present to ensure clean JSON parsing
+        text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        setResponse(JSON.parse(text));
       }
-    } catch (err) {
-      console.error(err);
-      setError("I couldn't clarify that right now. Please try again in a moment.");
+    } catch (err: any) {
+      console.error("Ask NikNextt Error:", err);
+      setError(err.message || "I couldn't clarify that right now. Please try again in a moment.");
     } finally {
       setLoading(false);
     }
