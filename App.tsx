@@ -25,7 +25,7 @@ import { SiteData, Page, ViewMode } from './types';
  */
 const INITIAL_DATA: SiteData = {
   hero: {
-    image: 'https://mechanical-indigo-wzek7kjv0s.edgeone.app/3D4D9E28-7872-4D28-A61D-9165FCB5FDB2.png',
+    image: 'https://conventional-olive-as54nj8vpf.edgeone.app/BE99C2AF-25A4-43C1-ACD3-5CAF6135CC07.png',
     supportingLine: 'In a world overflowing with information, we find the core logic that matters.',
     cta: [
       { label: 'Watch on YouTube', url: '#' },
