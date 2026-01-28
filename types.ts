@@ -43,6 +43,10 @@ export interface SiteData {
     cards: Card[];
     config: SectionConfig;
   };
+  askSection: {
+    config: SectionConfig;
+    dailyLimit?: number;
+  };
   about: {
     story: string;
     config: SectionConfig;

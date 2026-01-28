@@ -7,6 +7,7 @@ import { FeaturedSection } from './components/FeaturedSection';
 import { AboutSection } from './components/AboutSection';
 import { FounderSection } from './components/FounderSection';
 import { CTASection } from './components/CTASection';
+import { AskSection } from './components/AskSection';
 import { AdminPortal } from './components/AdminPortal';
 import { Login } from './components/Login';
 import { FounderPage } from './pages/FounderPage';
@@ -41,6 +42,9 @@ const INITIAL_DATA: SiteData = {
       { id: 'f2', title: 'Mental Models for 2024', description: 'The 3 frameworks every modern thinker needs.', thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80', url: '#' },
       { id: 'f3', title: 'The Art of Deep Focus', description: 'Reclaiming your attention in a distracted world.', thumbnail: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80', url: '#' }
     ],
+    config: { visible: true }
+  },
+  askSection: {
     config: { visible: true }
   },
   about: {
@@ -131,6 +135,7 @@ const App: React.FC = () => {
             {data.hero.config.visible && <HeroSection data={data.hero} isEditMode={false} onUpdate={updateData} />}
             {data.whatWeDo.config.visible && <WhatWeDoSection data={data.whatWeDo} isEditMode={false} onUpdate={updateData} />}
             {data.featured.config.visible && <FeaturedSection data={data.featured} isEditMode={false} onUpdate={updateData} />}
+            {data.askSection?.config.visible && <AskSection />}
             {data.about.config.visible && <AboutSection data={data.about} isEditMode={false} onUpdate={updateData} />}
             {data.founder.config.visible && <FounderSection data={data.founder} isEditMode={false} onUpdate={updateData} />}
             {data.ctaSection.config.visible && <CTASection data={data.ctaSection} isEditMode={false} onUpdate={updateData} />}

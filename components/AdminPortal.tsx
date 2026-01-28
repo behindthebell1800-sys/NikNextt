@@ -184,6 +184,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ data, onUpdate, onLogo
                 { id: 'hero', label: 'Hero Section' },
                 { id: 'whatWeDo', label: 'What NikNextt Does' },
                 { id: 'featured', label: 'Featured Content Grid' },
+                { id: 'askSection', label: 'Ask NikNextt (AI AI)' },
                 { id: 'about', label: 'About Brand Story' },
                 { id: 'founder', label: 'Founder Bio Section' },
                 { id: 'ctaSection', label: 'Closing CTA Banner' }
