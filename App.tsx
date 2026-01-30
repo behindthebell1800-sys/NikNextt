@@ -62,16 +62,16 @@ const INITIAL_DATA: SiteData = {
     socials: [
       { platform: 'YouTube', url: 'https://youtube.com/@niknextt?si=xc7ig8CRdLKguc_Z' },
       { platform: 'Instagram', url: 'https://www.instagram.com/niknextt?igsh=MTdlcndybXR0NjE1bg%3D%3D&utm_source=qr' },
-      { platform: 'X', url: '#' },
-      { platform: 'LinkedIn', url: '#' }
+      { platform: 'X', url: 'https://x.com/niknextt_?s=21' },
+      { platform: 'Threads', url: 'https://www.threads.com/@niknextt?igshid=NTc4MTIwNjQ2YQ==' }
     ],
     config: { visible: true }
   },
   ctaSection: {
     text: 'Ready to clear the fog? Start your journey towards clarity today.',
     buttons: [
-      { label: 'Subscribe Now', url: '#' },
-      { label: 'View All Content', url: '#' }
+      { label: 'Subscribe Now', url: 'https://www.youtube.com/channel/UCzUxfy5oH2dfwDxEcCtNoag' },
+      { label: 'View All Content', url: 'https://www.youtube.com/channel/UCzUxfy5oH2dfwDxEcCtNoag' }
     ],
     config: { visible: true }
   }
