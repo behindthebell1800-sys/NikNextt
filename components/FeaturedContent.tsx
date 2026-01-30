@@ -58,7 +58,7 @@ export const FeaturedContent: React.FC = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {mockItems.map((item) => (
             <div key={item.id} className="group card-gradient-border p-3 transition-all duration-500 hover:shadow-2xl hover:shadow-teal-main/10 hover:-translate-y-2">
-              <div className="aspect-[4/5] overflow-hidden rounded-2xl relative mb-6">
+              <div className="aspect-video overflow-hidden rounded-2xl relative mb-6">
                 <img 
                   src={item.thumbnail} 
                   alt={item.title} 

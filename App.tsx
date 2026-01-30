@@ -42,7 +42,7 @@ const INITIAL_DATA: SiteData = {
   },
   featured: {
     cards: [
-      { id: 'f1', title: 'The Future of Learning', description: 'How AI is changing the way we digest information.', thumbnail: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80', url: '#' },
+      { id: 'f1', title: 'Information Overload', description: 'Why Too Much Content Is Making Us Think Less', thumbnail: 'https://img.sanishtech.com/u/108153322f1f9cf719a4fcfcf2a50bbe.png', url: 'https://youtu.be/M3SuEq3yuMc' },
       { id: 'f2', title: 'Mental Models for 2024', description: 'The 3 frameworks every modern thinker needs.', thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80', url: '#' },
       { id: 'f3', title: 'The Art of Deep Focus', description: 'Reclaiming your attention in a distracted world.', thumbnail: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80', url: '#' }
     ],

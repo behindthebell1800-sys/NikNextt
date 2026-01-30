@@ -52,7 +52,7 @@ export const FeaturedSection: React.FC<SectionProps> = ({ data, isEditMode, onUp
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {data.cards.map((card, idx) => (
             <div key={card.id} className="group relative bg-white rounded-[16px] sm:rounded-3xl overflow-hidden border border-slate-100 card-hover">
-              <div className="aspect-[16/10] overflow-hidden relative">
+              <div className="aspect-video overflow-hidden relative">
                 <img src={card.thumbnail} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 {isEditMode && (
                   <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity p-4">
