@@ -44,7 +44,7 @@ const INITIAL_DATA: SiteData = {
     cards: [
       { id: 'f1', title: 'Information Overload', description: 'Why Too Much Content Is Making Us Think Less', thumbnail: 'https://img.sanishtech.com/u/108153322f1f9cf719a4fcfcf2a50bbe.png', url: 'https://youtu.be/M3SuEq3yuMc' },
       { id: 'f2', title: 'The Attention Economy', description: 'Why Your Focus Is the Most Valuable Resource', thumbnail: 'https://i.postimg.cc/dtWCKzLj/Chat-GPT-Image-Jan-30-2026-at-11-15-36-PM.png', url: 'https://youtu.be/4Y0KQk96YyM' },
-      { id: 'f3', title: 'The Art of Deep Focus', description: 'Reclaiming your attention in a distracted world.', thumbnail: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80', url: '#' }
+      { id: 'f3', title: 'How AI Really Works', description: 'From Early Foundations to Autonomous Systems', thumbnail: 'https://i.postimg.cc/kGVDrryD/Chat-GPT-Image-Jan-31-2026-at-10-13-05-PM.jpg', url: 'https://youtu.be/gem63woIWkE' }
     ],
     config: { visible: true }
   },
