@@ -48,20 +48,20 @@ export const FounderSection: React.FC<SectionProps> = ({ data, isEditMode, onUpd
       <div className="max-w-[1140px] mx-auto">
         <div className="bg-white rounded-[2rem] sm:rounded-[3rem] p-8 lg:p-20 shadow-xl border border-slate-100 flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-16">
           <div className="w-full lg:w-1/3 relative group flex justify-center lg:justify-start">
-            <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden border-4 sm:border-8 border-slate-50 shadow-2xl lg:mx-0">
+            <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden border-4 sm:border-8 border-slate-50 shadow-2xl lg:mx-0 relative">
               <img src={data.photo} alt={data.name} className="w-full h-full object-cover" />
+              {isEditMode && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity p-6">
+                  <input 
+                    type="text" 
+                    className="w-full px-4 py-2 rounded-lg text-xs"
+                    placeholder="Photo URL..."
+                    value={data.photo}
+                    onChange={(e) => onUpdate('founder.photo', e.target.value)}
+                  />
+                </div>
+              )}
             </div>
-            {isEditMode && (
-              <div className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity p-6">
-                <input 
-                  type="text" 
-                  className="w-full px-4 py-2 rounded-lg text-xs"
-                  placeholder="Photo URL..."
-                  value={data.photo}
-                  onChange={(e) => onUpdate('founder.photo', e.target.value)}
-                />
-              </div>
-            )}
             <div className="absolute -bottom-4 left-1/2 lg:left-32 transform -translate-x-1/2 bg-brand-amber text-white font-bold px-6 py-2 rounded-full shadow-lg text-sm sm:text-base">
               Founder
             </div>
@@ -87,7 +87,7 @@ export const FounderSection: React.FC<SectionProps> = ({ data, isEditMode, onUpd
               <>
                 <h2 className="text-[20px] leading-[28px] sm:text-5xl font-bold sm:font-extrabold text-slate-900 mb-1 sm:mb-8">{data.name}</h2>
                 <p className="text-sm opacity-70 mb-4 sm:hidden">Founder, NikNextt</p>
-                <div className="text-[16px] leading-[26px] text-slate-600 sm:text-xl sm:leading-relaxed mb-8 sm:mb-10">{data.bio}</div>
+                <div className="text-[16px] leading-[26px] text-slate-600 sm:text-xl sm:leading-relaxed mb-8 sm:mb-10 whitespace-pre-wrap">{data.bio}</div>
               </>
             )}
             

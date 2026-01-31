@@ -43,7 +43,7 @@ const INITIAL_DATA: SiteData = {
   featured: {
     cards: [
       { id: 'f1', title: 'Information Overload', description: 'Why Too Much Content Is Making Us Think Less', thumbnail: 'https://img.sanishtech.com/u/108153322f1f9cf719a4fcfcf2a50bbe.png', url: 'https://youtu.be/M3SuEq3yuMc' },
-      { id: 'f2', title: 'Mental Models for 2024', description: 'The 3 frameworks every modern thinker needs.', thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80', url: '#' },
+      { id: 'f2', title: 'The Attention Economy', description: 'Why Your Focus Is the Most Valuable Resource', thumbnail: 'https://postimg.cc/bstrxV0Z', url: 'https://youtu.be/4Y0KQk96YyM' },
       { id: 'f3', title: 'The Art of Deep Focus', description: 'Reclaiming your attention in a distracted world.', thumbnail: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80', url: '#' }
     ],
     config: { visible: true }
@@ -63,7 +63,7 @@ const INITIAL_DATA: SiteData = {
       { platform: 'YouTube', url: 'https://youtube.com/@niknextt?si=xc7ig8CRdLKguc_Z' },
       { platform: 'Instagram', url: 'https://www.instagram.com/niknextt?igsh=MTdlcndybXR0NjE1bg%3D%3D&utm_source=qr' },
       { platform: 'X', url: 'https://x.com/niknextt_?s=21' },
-      { platform: 'Threads', url: 'https://www.threads.com/@niknextt?igshid=NTc4MTIwNjQ2YQ==' }
+      { platform: 'Threads', url: 'https://www.threads.net/@niknextt' }
     ],
     config: { visible: true }
   },
